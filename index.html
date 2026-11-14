@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FlatMatch</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231B4332'/%3E%3Cpath d='M12 32 32 14l20 18' fill='none' stroke='%23FAF8F5' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='26' cy='38' r='4' fill='%23FAF8F5'/%3E%3Ccircle cx='38' cy='38' r='4' fill='%239BC1A8'/%3E%3C/svg%3E">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light;--bg:#FAF8F5;--cd:#fff;--tx:#1f2a24;--mu:#6b7a72;--ac:#1B4332;--a2:#dcebe1;--bd:#e3e0d8;--bad:#b91c1c;--on:#FAF8F5}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#121a16;--cd:#1a2420;--tx:#ecefe9;--mu:#9baba1;--ac:#9BC1A8;--a2:#26382e;--bd:#2c3a33;--bad:#f87171;--on:#10201a}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#121a16;--cd:#1a2420;--tx:#ecefe9;--mu:#9baba1;--ac:#9BC1A8;--a2:#26382e;--bd:#2c3a33;--bad:#f87171;--on:#10201a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:24px}
+main{max-width:520px;margin:auto;padding:14px}h2{margin:4px 0}.mu{color:var(--mu);font-size:13px}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:10px 0}
+label{display:block;font-size:12px;color:var(--mu);margin:10px 0 3px}label.cb{display:flex;gap:8px;font-size:14px;color:var(--tx);align-items:flex-start}
+input,select{width:100%;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}input[type=checkbox]{width:auto;margin-top:3px}
+button,.btn{display:block;width:100%;margin-top:8px;padding:10px;border:0;border-radius:10px;background:var(--ac);color:var(--on);font:inherit;font-weight:600;cursor:pointer;text-align:center;text-decoration:none}
+button.g{background:transparent;color:var(--tx);border:1px solid var(--bd)}button.d{background:transparent;color:var(--bad);border:1px solid var(--bad)}button:disabled{opacity:.5}
+.row,.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.chip{border:1px solid var(--bd);border-radius:99px;padding:5px 11px;font-size:13px;cursor:pointer}.chip.on{background:var(--ac);border-color:var(--ac);color:var(--on)}
+.tg{border:1px solid var(--bd);border-radius:99px;padding:2px 9px;font-size:12px}.tags{margin:8px 0}
+.top{display:flex;justify-content:space-between;gap:8px}.pc{font-weight:700;color:var(--ac)}.lk{color:var(--ac);cursor:pointer;font-weight:600}
+.pr{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.av{width:52px;height:52px;border-radius:50%;object-fit:cover;background:var(--a2);color:var(--ac);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;flex:none}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--cd);z-index:6}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:12px;padding:8px 14px;background:var(--cd);border-bottom:1px solid var(--bd)}
+.bar button{width:auto;margin:0;padding:6px 12px;font-size:22px;line-height:1;background:transparent;color:var(--tx);border:1px solid var(--bd)}.bar b{font-size:17px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:7}
+.dr{position:fixed;top:0;left:0;bottom:0;width:78%;max-width:310px;background:var(--cd);z-index:8;padding:calc(16px + env(safe-area-inset-top,0px)) 0 16px;transform:translateX(-100%);visibility:hidden;transition:transform .2s,visibility .2s;overflow-y:auto;border-right:1px solid var(--bd)}.dr.on{transform:none;visibility:visible}
+.dr h3{margin:0 20px 10px;font-size:18px}.mi{display:flex;gap:12px;align-items:center;padding:13px 20px;cursor:pointer;font-size:16px}.mi.on{background:var(--a2);color:var(--ac);font-weight:700}.dr hr{border:0;border-top:1px solid var(--bd);margin:8px 0}
+.ban{height:130px;border-radius:10px;background:var(--bd);display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:13px;margin-bottom:8px;overflow:hidden}.ban img{width:100%;height:100%;object-fit:cover}
+.gal{display:flex;gap:8px;overflow-x:auto;margin-bottom:8px}.gal img{height:190px;width:85%;flex:none;object-fit:cover;border-radius:10px}.th{width:72px;height:72px;object-fit:cover;border-radius:8px;margin-top:6px}
+.msgs{display:flex;flex-direction:column;gap:6px;margin:10px 0}.m{max-width:80%;padding:8px 11px;border-radius:14px;border:1px solid var(--bd);background:var(--cd)}.m.me{align-self:flex-end;background:var(--ac);color:var(--on);border-color:var(--ac)}
+.send{display:flex;gap:8px}.send button{width:auto;margin:0}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:#1f2328;color:#fff;padding:9px 14px;border-radius:99px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;max-width:90%;text-align:center;z-index:9}#toast.on{opacity:1}
+</style></head><body>
+<div id="root"></div><div id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.109.0"></script>
+<script>
+/* ===== 1. PASTE YOUR TWO SUPABASE VALUES HERE (Project Settings > API). Use the public anon key, never the service_role key. ===== */
+const CFG={url:'https://supabase.co',key:'sb_publishable_0LdBkffgJegXJli0gbxSpw_FXbxF8co'};
+function fatal(m){document.getElementById('root').innerHTML='<main style="max-width:520px;margin:auto;padding:20px;font:16px system-ui"><h2>FlatMatch could not start</h2><p>'+String(m).replace(/</g,'&lt;')+'</p><p>Check your internet connection or content blocker, then reload the page.</p></main>'}
+const missing=['React','ReactDOM','htm','supabase'].filter(n=>typeof window[n]==='undefined');
+if(missing.length){fatal('These libraries did not load: '+missing.join(', ')+'.');throw new Error('Missing libraries: '+missing.join(', '))}
+const BADURL=(()=>{try{return new URL(CFG.url).hostname.split('.').length<3}catch(e){return true}})();
+
+const {useState,useEffect,useCallback,useRef}=React,h=htm.bind(React.createElement);
+let sb;try{sb=supabase.createClient(CFG.url,CFG.key)}catch(e){fatal('Could not connect to Supabase: '+e.message);throw e}
+const $=s=>document.querySelector(s),inr=n=>'₹'+Number(n||0).toLocaleString('en-IN'),r2=n=>Math.round(n*100)/100,fst=n=>String(n||'').split(' ')[0];
+const toast=m=>{const t=$('#toast');t.textContent=m;t.className='on';clearTimeout(toast.t);toast.t=setTimeout(()=>t.className='',3200)};
+const run=async(p,ok)=>{const{data,error}=await p;if(error){toast(error.message);return null}if(ok)toast(ok);return data??true};
+const pub=p=>sb.storage.from('listing-photos').getPublicUrl(p).data.publicUrl;
+const shrink=(f,max=900)=>new Promise((res,rej)=>{const im=new Image();im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);c.toBlob(res,'image/jpeg',.72)};im.onerror=rej;im.src=URL.createObjectURL(f)});
+const Y3=[['yes','Yes'],['no','No'],['pns','Prefer not to say']],Y2=[['yes','Yes'],['no','No']];
+const Q=[
+['sleep','Sleep','Are you a night owl or an early riser?',[['early','Early riser'],['late','Night owl'],['flex','Flexible']]],
+['routine','Day','What does your day look like?',[['wfh','Work from home'],['office','Go to office'],['college','Attend college'],['hybrid','Hybrid']]],
+['noise','Home vibe','Quiet house, or music and TV on?',[['quiet','Quiet'],['some','Some music or TV'],['loud','Music or TV often']]],
+['gatherings','Gatherings','Comfortable with gatherings at home?',[['none','Prefer none'],['small','Small gatherings'],['parties','Parties are fine']]],
+['guests','Guests','How often do you have guests over?',[['rare','Rarely'],['some','Sometimes'],['often','Often']]],
+['has_pets','Has pets','Do you have pets?',Y3],['ok_pets','OK with pets','Comfortable living with pets?',Y2],
+['smoke','Smokes','Do you smoke?',Y3],['drink','Drinks','Do you drink alcohol?',Y3],
+['smoke_ok','OK with smoking','OK with a flatmate who smokes?',Y3],['drink_ok','OK with drinking','OK with a flatmate who drinks?',Y3],
+['food','Food','Are you veg or non-veg?',[['veg','Vegetarian'],['egg','Eggetarian'],['nonveg','Non-vegetarian']]],
+['nonveg_home','Non-veg at home','OK with non-veg cooked at home?',Y2],
+['cooking','Cooks','How often do you cook?',[['daily','Daily'],['some','Sometimes'],['rare','Rarely']]],
+['clean','Tidiness','How tidy are you? (1 relaxed, 5 spotless)',[1,2,3,4,5].map(x=>[String(x),x+'/5'])],
+['chores','Chores','How should chores be handled?',[['share','Share equally'],['rota','Weekly rota'],['help','Hired help']]],
+['stay','Stay','How long do you plan to stay?',[['short','Under 6 months'],['long','6 months or more']]]];
+const KEYS=Q.map(q=>q[0]),KINDS=[['room','Room'],['1bhk','1 BHK'],['2bhk','2 BHK'],['3bhk','3 BHK'],['house','House']];
+const CATS=[['rent','Rent'],['groceries','Groceries'],['electricity','Electricity'],['wifi','Wi-Fi'],['water','Water'],['gas','Gas'],['food','Food'],['travel','Travel'],['other','Other']];
+const N={quiet:0,some:1,loud:2,none:0,small:1,parties:2,rare:0,often:2};
+function score(m,c){const r=[],w=[],add=(x,v,t)=>{w.push([x,v]);if(t&&v>=.85)r.push(t)};
+const near=k=>1-Math.abs((N[m[k]]??1)-(N[c[k]]??1))/2,clash=(d,o)=>d=='yes'&&o=='no'?0:d=='pns'||o=='pns'?.7:1,fc=(a,b)=>a.food=='veg'&&a.nonveg_home=='no'&&b.food!='veg'?.2:1;
+const ov=Math.min(m.bmax,c.bmax)-Math.max(m.bmin,c.bmin);
+add(20,Math.max(0,Math.min(1,(ov+1000)/3000)),'Rent budgets overlap');add(12,m.sleep==c.sleep?1:m.sleep=='flex'||c.sleep=='flex'?.7:.2,'Same sleep routine');add(3,m.routine==c.routine?1:.7);
+add(10,near('noise'),'Similar noise preference');add(8,near('gatherings'),'Same view on gatherings');add(4,near('guests'));add(12,1-Math.abs(m.clean-c.clean)/4,'Similar tidiness');
+add(10,Math.min(clash(c.smoke,m.smoke_ok),clash(m.smoke,c.smoke_ok)),'Smoking preferences fit');add(6,Math.min(clash(c.drink,m.drink_ok),clash(m.drink,c.drink_ok)),'Drinking preferences fit');
+add(6,Math.min(clash(c.has_pets,m.ok_pets),clash(m.has_pets,c.ok_pets)),'Pets are fine for both');const f=Math.min(fc(m,c),fc(c,m));add(8,f<1?f:m.food==c.food?1:.8,'Food habits fit');
+add(4,m.room==c.room?1:.3);add(3,m.stay==c.stay?1:.5);add(3,m.chores==c.chores?1:.6);
+return{s:Math.round(w.reduce((a,[x,v])=>a+x*v,0)*100/w.reduce((a,[x])=>a+x,0)),r}}
+
+/* ---------- small UI pieces ---------- */
+const Inp=({l,v,set,t='text',ph,max})=>h`<label>${l}</label><input type=${t} value=${v??''} placeholder=${ph} maxLength=${max} onChange=${e=>set(e.target.value)}/>`;
+const Ch=({l,v,set,o})=>h`<label>${l}</label><div className="row">${o.map(([k,t])=>h`<span key=${k} className=${'chip'+(v==k?' on':'')} onClick=${()=>set(k)}>${t}</span>`)}</div>`;
+const Back=({f})=>h`<p><span className="lk" onClick=${f}>‹ Back</span></p>`;
+function Av({path,name}){const[u,setU]=useState(null);useEffect(()=>{let on=1;if(path)sb.storage.from('profile-photos').createSignedUrl(path,3600).then(({data})=>on&&setU(data?.signedUrl||null));return()=>{on=0}},[path]);
+return u?h`<img className="av" src=${u} alt=""/>`:h`<span className="av">${(name||'?')[0].toUpperCase()}</span>`}
+function Prof({p,name,s,r}){const g={f:'Woman',m:'Man',o:'Other'}[p.gender];
+return h`<div><div className="pr"><${Av} path=${p.photo_path} name=${name}/><div style=${{flex:1}}><div className="top"><b>${name}</b>${s!=null&&h`<span className="pc">${s}%</span>`}</div><div className="mu">${[p.age&&p.age+' yrs',g,p.role].filter(Boolean).join(' · ')}</div></div></div>
+${p.area&&h`<div className="mu">Looking in ${p.area}</div>`}${p.bio&&h`<p>${p.bio}</p>`}
+<div className="mu">Budget ${inr(p.bmin)}–${inr(p.bmax)}${p.move_in?' · Move-in '+p.move_in:''} · ${p.room=='private'?'Wants a private room':'Fine sharing a room'}</div>
+<div className="tags">${Q.map(q=>{const o=q[3].find(x=>x[0]==p[q[0]]);return o&&h`<span key=${q[0]} className="tg">${q[1]}: ${o[1]}</span>`})}</div>${r&&r.length>0&&h`<p className="mu">Why you match: ${r.join(' · ')}</p>`}</div>`}
+
+/* ---------- sign in / sign up ---------- */
+function Auth(){const[m,setM]=useState('in'),[e,setE]=useState(''),[p,setP]=useState(''),[p2,setP2]=useState(''),[bz,setBz]=useState(false);
+const go=async()=>{if(!/^\S+@\S+\.\S+$/.test(e))return toast('Enter a valid email');if(p.length<8)return toast('Password must be at least 8 characters');if(m=='up'&&p!=p2)return toast('Passwords do not match');
+setBz(true);const c={email:e.trim().toLowerCase(),password:p};
+if(m=='up'){const{data,error}=await sb.auth.signUp(c);if(error)toast(error.message);else if(!data.session){toast('Check your email to confirm, then sign in');setM('in')}}
+else{const{error}=await sb.auth.signInWithPassword(c);if(error)toast(error.message=='Invalid login credentials'?'Wrong email or password':error.message)}setBz(false)};
+return h`<main><h2>🏠 FlatMatch</h2><p className="mu">Find flatmates who fit your lifestyle.</p>${BADURL&&h`<div className="card" style=${{borderColor:'var(--bad)'}}><b>⚠️ Supabase URL looks incomplete</b><p className="mu">It should look like https://YOUR-PROJECT-NAME.supabase.co (Supabase, Project Settings, API). Edit the CFG line near the top of index.html, otherwise sign in cannot reach your database.</p></div>`}<div className="card"><b>${m=='up'?'Create your account':'Sign in'}</b>
+<${Inp} l="Email" v=${e} set=${setE} t="email"/><${Inp} l="Password (at least 8 characters)" v=${p} set=${setP} t="password"/>${m=='up'&&h`<${Inp} l="Confirm password" v=${p2} set=${setP2} t="password"/>`}
+<button disabled=${bz} onClick=${go}>${bz?'Please wait…':m=='up'?'Create account':'Sign in'}</button><button className="g" onClick=${()=>setM(m=='up'?'in':'up')}>${m=='up'?'I already have an account':'New here? Create an account'}</button></div></main>`}
+
+/* ---------- profile form (create + edit) ---------- */
+function Form({me,user,done,cancel}){const[f,setF]=useState(()=>({gpref:'any',room:'private',bmin:6000,bmax:12000,...(me||{})})),[ad,setAd]=useState(!!me),[tm,setTm]=useState(!!me),[ph,setPh]=useState(null),[pu,setPu]=useState(null);
+const s=k=>v=>setF(x=>({...x,[k]:v}));
+const pick=async e=>{const fl=e.target.files[0];if(!fl)return;try{const b=await shrink(fl,500);setPh(b);setPu(URL.createObjectURL(b))}catch(x){toast('Could not read that image')}};
+const save=async()=>{for(const k of['name','age','gender','city',...KEYS])if(!f[k])return toast('Please fill: '+(Q.find(q=>q[0]==k)?.[1]||k));
+if(+f.age<18)return toast('You must be 18 or older');if(!ad||!tm)return toast('Please confirm your age and accept the Terms');
+let photo_path=f.photo_path||null;if(ph){const path=user.id+'/avatar.jpg';if(!await run(sb.storage.from('profile-photos').upload(path,ph,{contentType:'image/jpeg',upsert:true})))return;photo_path=path}
+const row={id:user.id,name:f.name.trim(),age:+f.age,gender:f.gender,role:f.role||null,bio:f.bio||null,city:f.city.trim(),gpref:f.gpref,bmin:+f.bmin,bmax:+f.bmax,move_in:f.move_in||null,room:f.room,photo_path,is_adult:true,accepted_terms_at:me?.accepted_terms_at||new Date().toISOString()};
+KEYS.forEach(k=>row[k]=k=='clean'?+f[k]:f[k]);if(await run(sb.from('profiles').upsert(row),'Profile saved'))done()};
+return h`<main><h2>${me?'Edit your profile':'About you'}</h2><p className="mu">Others searching your area see your first name, intro and these answers. Your photo and full name appear only after you connect.</p>
+<div className="card"><div className="pr"><${pu?'img':Av} ...${pu?{className:'av',src:pu}:{path:f.photo_path,name:f.name}}/><label className="btn g" style=${{margin:0}}>${f.photo_path||pu?'Change photo':'Upload profile photo'}<input type="file" accept="image/*" hidden onChange=${pick}/></label></div>
+<${Inp} l="Full name" v=${f.name} set=${s('name')}/><${Inp} l="Age" v=${f.age} set=${s('age')} t="number"/><${Ch} l="I am" v=${f.gender} set=${s('gender')} o=${[['f','Woman'],['m','Man'],['o','Other']]}/>
+<${Inp} l="What do you do? (optional)" v=${f.role} set=${s('role')} ph="Software engineer, CA student…"/><${Inp} l="Short intro (max 200 characters)" v=${f.bio} set=${s('bio')} max=${200}/>
+<${Inp} l="Your home city" v=${f.city} set=${s('city')}/><${Ch} l="Flatmate preference" v=${f.gpref} set=${s('gpref')} o=${[['any','Anyone'],['women','Women only'],['men','Men only']]}/></div>
+<div className="card"><${Inp} l="Rent min (₹/month)" v=${f.bmin} set=${s('bmin')} t="number"/><${Inp} l="Rent max (₹/month)" v=${f.bmax} set=${s('bmax')} t="number"/><${Inp} l="Move-in date (optional)" v=${f.move_in} set=${s('move_in')} t="date"/><${Ch} l="Room" v=${f.room} set=${s('room')} o=${[['private','Private room'],['sharing','Sharing is fine']]}/></div>
+<div className="card"><b>Lifestyle</b>${Q.map(q=>h`<${Ch} key=${q[0]} l=${q[2]} v=${f[q[0]]} set=${s(q[0])} o=${q[3]}/>`)}</div>
+<div className="card">${!me&&h`<label className="cb"><input type="checkbox" checked=${ad} onChange=${e=>setAd(e.target.checked)}/> I am 18 or older.</label><label className="cb"><input type="checkbox" checked=${tm} onChange=${e=>setTm(e.target.checked)}/> I accept the Terms and Privacy Policy and agree my first name, intro and answers are shown to people searching the same area.</label>`}
+<button onClick=${save}>${me?'Save changes':'Save and continue'}</button>${cancel&&h`<button className="g" onClick=${cancel}>Cancel</button>`}</div></main>`}
+
+/* ---------- People ---------- */
+function People({me,user,setView}){const[areas,setAreas]=useState([]),[sel,setSel]=useState(null),[rows,setRows]=useState([]),[st,setSt]=useState({}),[city,setCity]=useState(''),[loc,setLoc]=useState('');
+const load=useCallback(async pick=>{if(!me)return;const{data:ar}=await sb.from('area_searches').select('id,city,locality').gt('expires_at',new Date().toISOString()).order('created_at');
+const list=ar||[];setAreas(list);const cur=list.find(a=>a.id==(pick||sel))||list[0];setSel(cur?.id||null);if(!cur)return setRows([]);
+const[{data:f},{data:cs}]=await Promise.all([sb.rpc('discover_profiles',{p_city:cur.city,p_locality:cur.locality}),sb.from('connections').select('id,from_id,to_id,status')]);
+const by={};(cs||[]).forEach(c=>by[c.from_id==user.id?c.to_id:c.from_id]=c);setSt(by);const want=me.gpref=='women'?'f':me.gpref=='men'?'m':null;
+setRows((f||[]).filter(p=>(!want||p.gender==want)&&!(by[p.id]?.to_id==user.id&&by[p.id]?.status=='requested')).map(p=>({p,...score(me,p)})).sort((a,b)=>b.s-a.s))},[me,sel,user.id]);
+useEffect(()=>{load()},[load]);
+if(!me)return h`<main><h2>Find flatmates</h2><p className="mu">People you connect with see your profile and answers, so please create it first. Split expenses and Flats work without it.</p><button onClick=${()=>setView({t:'edit'})}>Create my profile</button></main>`;
+const add=async()=>{if(!city.trim())return toast('Enter a city');const id=await run(sb.rpc('join_area',{p_city:city,p_locality:loc}),'You are now visible to people searching there');if(id){setCity('');setLoc('');load(id===true?null:id)}};
+const lab=a=>(a.locality?a.locality+', ':'')+a.city;const cur=areas.find(a=>a.id==sel);
+return h`<main><h2>Where are you looking?</h2><p className="mu">Add up to 3 areas. Your profile is shown only to others searching the same area.</p>
+<div className="row">${areas.map(a=>h`<span key=${a.id} className=${'chip'+(sel==a.id?' on':'')}><span onClick=${()=>setSel(a.id)}>${lab(a)}</span> <span onClick=${async()=>{await sb.from('area_searches').delete().eq('id',a.id);load()}}>✕</span></span>`)}</div>
+<${Inp} l="City" v=${city} set=${setCity} ph="e.g. Dehradun"/><${Inp} l="Area (optional)" v=${loc} set=${setLoc} ph="e.g. Rajpur Road"/><button onClick=${add}>Search this area and show my profile</button>
+${areas.length>0&&h`<button className="g" onClick=${async()=>{await sb.from('area_searches').delete().eq('user_id',user.id);toast('You are hidden from everyone');load()}}>Hide my profile from everyone</button>`}
+<button className="g" onClick=${()=>setView({t:'edit'})}>Edit my profile</button>
+<p className="mu" style=${{marginTop:12}}>${cur?'People also searching '+lab(cur)+':':'Add an area to see people searching there.'}</p>${cur&&!rows.length&&h`<p className="mu">No one else is searching here yet. You are visible to new people as they join.</p>`}
+${rows.map(({p,s,r})=>{const c=st[p.id],full=c?.status=='accepted';return h`<div className="card" key=${p.id}><${Prof} p=${p} name=${p.first_name} s=${s} r=${r}/>
+${!c&&h`<button onClick=${async()=>{const d=await run(sb.rpc('show_interest',{target:p.id}));if(d==='accepted')toast('It’s a match! Open Inbox to chat.');else if(d)toast('Interest sent');load()}}>Show interest</button>`}
+${c?.status=='requested'&&h`<p className="mu">Interest sent. Waiting for their reply.</p>`}${full&&h`<button onClick=${()=>setView({t:'chat',id:c.id,name:p.first_name})}>Open chat</button>`}
+<button className="g" style=${{width:'auto'}} onClick=${async()=>{await sb.from('reports').insert({reporter:user.id,reported:p.id,reason:'Reported from area card'});await sb.from('blocks').insert({blocker:user.id,blocked:p.id});load()}}>Report and block</button></div>`})}</main>`}
+
+/* ---------- Inbox ---------- */
+function Inbox({me,user,setView}){const[req,setReq]=useState([]),[chats,setChats]=useState([]),[inq,setInq]=useState([]);
+const load=useCallback(async()=>{const{data:cs}=await sb.from('connections').select('id,from_id,to_id,status').in('status',['requested','accepted']);
+const want=(cs||[]).filter(c=>c.status=='accepted'||c.to_id==user.id),oth=c=>c.from_id==user.id?c.to_id:c.from_id;
+const{data:ps}=await sb.from('profiles').select('*').in('id',want.map(oth));const by=new Map((ps||[]).map(p=>[p.id,p]));
+const items=want.map(c=>({c,p:by.get(oth(c))})).filter(x=>x.p);setReq(items.filter(x=>x.c.status=='requested'));setChats(items.filter(x=>x.c.status=='accepted'));
+const{data:iq}=await sb.from('listing_inquiries').select('id,seeker_id,listings(title)').eq('status','requested').neq('seeker_id',user.id);
+const{data:sp}=await sb.from('profiles').select('*').in('id',(iq||[]).map(x=>x.seeker_id));const sb2=new Map((sp||[]).map(p=>[p.id,p]));
+setInq((iq||[]).map(x=>({id:x.id,t:x.listings?.title,p:sb2.get(x.seeker_id)})).filter(x=>x.p))},[user.id]);
+useEffect(()=>{load()},[load]);
+return h`<main><h2>Requests</h2>${!req.length&&h`<p className="mu">No new requests.</p>`}
+${req.map(({c,p})=>{const x=me?score(me,p):{};return h`<div className="card" key=${c.id}><${Prof} p=${p} name=${p.name} s=${x.s} r=${x.r}/><button onClick=${async()=>{await run(sb.rpc('respond_request',{cid:c.id,accept:true}),'Accepted. Chat is open.');load()}}>Looks good, accept</button><button className="g" onClick=${async()=>{await run(sb.rpc('respond_request',{cid:c.id,accept:false}));load()}}>Not for me</button>
+<button className="d" onClick=${async()=>{await sb.from('reports').insert({reporter:user.id,reported:p.id,reason:'Reported from request'});await sb.from('blocks').insert({blocker:user.id,blocked:p.id});load()}}>Report and block</button></div>`})}
+<h2 style=${{marginTop:14}}>Flat inquiries</h2>${!inq.length&&h`<p className="mu">No inquiries about your flats.</p>`}
+${inq.map(q=>h`<div className="card" key=${q.id}><p className="mu">Asked about “${q.t}”</p><${Prof} p=${q.p} name=${q.p.name}/><button onClick=${async()=>{await run(sb.rpc('respond_inquiry',{iid:q.id,accept:true}),'Accepted. They can see the address and chat.');load()}}>Looks good, accept</button><button className="g" onClick=${async()=>{await run(sb.rpc('respond_inquiry',{iid:q.id,accept:false}));load()}}>Not suitable</button></div>`)}
+<h2 style=${{marginTop:14}}>Chats</h2>${!chats.length&&h`<p className="mu">Accepted matches and flat owners appear here.</p>`}
+${chats.map(({c,p})=>h`<div className="card top" key=${c.id}><b>${p.name}</b><span className="lk" onClick=${()=>setView({t:'chat',id:c.id,name:p.name})}>Open chat ›</span></div>`)}</main>`}
+
+/* ---------- Chat (live) ---------- */
+function Chat({v,user,back}){const id=v.id,[ms,setMs]=useState([]),[tx,setTx]=useState(''),[ph,setPh]=useState(''),[cs,setCs]=useState({}),[cn,setCn]=useState(null),end=useRef();
+const load=useCallback(async()=>{const[a,b,c]=await Promise.all([sb.from('connections').select('*').eq('id',id).single(),sb.from('messages').select('*').eq('connection_id',id).order('created_at'),sb.from('call_shares').select('user_id,phone').eq('connection_id',id)]);
+setCn(a.data);setMs(b.data||[]);setCs(Object.fromEntries((c.data||[]).map(x=>[x.user_id,x.phone])))},[id]);
+useEffect(()=>{load();const ch=sb.channel('chat-'+id).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:'connection_id=eq.'+id},p=>setMs(m=>m.some(x=>x.id==p.new.id)?m:[...m,p.new])).subscribe();return()=>{sb.removeChannel(ch)}},[id,load]);
+useEffect(()=>{end.current?.scrollIntoView()},[ms]);
+const send=async()=>{const body=tx.trim();if(!body)return;setTx('');const d=await run(sb.from('messages').insert({connection_id:id,sender:user.id,body}).select().single());if(d&&d!==true)setMs(m=>m.some(x=>x.id==d.id)?m:[...m,d])};
+const theirs=cn&&cs[cn.from_id==user.id?cn.to_id:cn.from_id],mineS=cn&&(cn.from_id==user.id?cn.from_suitable:cn.to_suitable),both=cn&&cn.from_suitable&&cn.to_suitable;
+return h`<main><${Back} f=${back}/><b>${v.name}</b><div className="card"><p className="mu">Meet in a public place first. Never send money in advance.</p>
+${theirs?h`<a className="btn" href=${'tel:'+theirs.replace(/\s/g,'')}>📞 Call ${fst(v.name)}</a>`:h`<p className="mu">${fst(v.name)} hasn’t shared a number yet.</p>`}
+${cs[user.id]?h`<p className="mu">You shared your number with them.</p>`:h`<${Inp} l="Share my number (only with this person)" v=${ph} set=${setPh} t="tel" ph="+91…"/><button className="g" onClick=${async()=>{if(!/^\+?\d{10,13}$/.test(ph.trim()))return toast('Enter a valid phone number');if(await run(sb.from('call_shares').upsert({connection_id:id,user_id:user.id,phone:ph.trim()}))){setPh('');load()}}}>Share my number</button>`}
+${cn&&!mineS&&h`<button className="g" onClick=${async()=>{await run(sb.rpc('mark_suitable',{cid:id}));load()}}>We met and they seem suitable</button>`}${mineS&&!both&&h`<p className="mu">You marked them suitable. Waiting for them.</p>`}
+${both&&h`<button onClick=${()=>run(sb.rpc('create_flat',{flat_name:'Flat with '+fst(v.name),cid:id}),'Created. Open the Split tab to add expenses.')}>Create shared flat (Split group)</button>`}</div>
+<div className="msgs">${ms.map(m=>h`<div key=${m.id} className=${'m'+(m.sender==user.id?' me':'')}>${m.body}</div>`)}<div ref=${end}></div></div>
+<div className="send"><input value=${tx} placeholder="Type a message" onChange=${e=>setTx(e.target.value)} onKeyDown=${e=>e.key=='Enter'&&send()}/><button onClick=${send}>Send</button></div></main>`}
+
+/* ---------- Flats ---------- */
+const Gal=({l})=>l.photos&&l.photos.length?h`<div className="gal">${l.photos.map(p=>h`<img key=${p} src=${pub(p)} alt=""/>`)}</div>`:h`<div className="ban">No photo yet</div>`;
+function Flats({setView}){const[q,setQ]=useState({c:'',a:'',r:'',k:''}),[L,setL]=useState([]),s=k=>v=>setQ(x=>({...x,[k]:v}));
+const go=useCallback(async()=>{let x=sb.from('listings').select('*').eq('status','active').order('created_at',{ascending:false}).limit(50);
+if(q.c.trim())x=x.ilike('city','%'+q.c.trim()+'%');if(q.a.trim())x=x.ilike('locality','%'+q.a.trim()+'%');if(+q.r>0)x=x.lte('rent',+q.r);if(q.k)x=x.eq('kind',q.k);const{data}=await x;setL(data||[])},[q]);
+useEffect(()=>{go()},[]);
+return h`<main><h2>Flats</h2><p className="mu">Every listing is posted directly by the owner. Zero brokerage.</p><button onClick=${()=>setView({t:'post'})}>Post your flat</button>
+<${Inp} l="City" v=${q.c} set=${s('c')} ph="e.g. Dehradun"/><${Inp} l="Area" v=${q.a} set=${s('a')} ph="e.g. Rajpur Road"/><${Inp} l="Max rent (₹/month)" v=${q.r} set=${s('r')} t="number"/>
+<label>Type</label><div className="row">${KINDS.map(([v,t])=>h`<span key=${v} className=${'chip'+(q.k==v?' on':'')} onClick=${()=>s('k')(q.k==v?'':v)}>${t}</span>`)}</div><button className="g" onClick=${go}>Search flats</button>
+${!L.length&&h`<p className="mu">No flats found.</p>`}${L.map(l=>h`<div className="card" key=${l.id} style=${{cursor:'pointer'}} onClick=${()=>setView({t:'lst',id:l.id})}><div className="ban">${l.photos&&l.photos[0]?h`<img src=${pub(l.photos[0])} alt=""/>`:'No photo yet'}</div><b>${l.title}</b><div className="mu">${KINDS.find(k=>k[0]==l.kind)[1]} · ${l.locality}, ${l.city}</div><b className="pc">${inr(l.rent)}/month</b></div>`)}</main>`}
+function Listing({id,user,need,back,setView}){const[l,setL]=useState(null),[ad,setAd]=useState(null),[iq,setIq]=useState(null),[cid,setCid]=useState(null);
+const load=useCallback(async()=>{const{data}=await sb.from('listings').select('*').eq('id',id).single();if(!data)return;setL(data);
+const{data:p}=await sb.from('listing_private').select('address').eq('listing_id',id).maybeSingle();setAd(p?.address||null);
+if(data.owner_id!=user.id){const{data:q}=await sb.from('listing_inquiries').select('status').eq('listing_id',id).eq('seeker_id',user.id).maybeSingle();setIq(q?.status||null);
+if(q?.status=='accepted'){const{data:c}=await sb.from('connections').select('id').or('from_id.eq.'+data.owner_id+',to_id.eq.'+data.owner_id).eq('status','accepted').limit(1);setCid(c?.[0]?.id||null)}}},[id,user.id]);
+useEffect(()=>{load()},[load]);if(!l)return h`<main><${Back} f=${back}/></main>`;const mine=l.owner_id==user.id;
+return h`<main><${Back} f=${back}/><${Gal} l=${l}/><div className="card"><h2>${l.title}</h2><div className="mu">${l.locality}, ${l.city} · Posted by owner · Zero brokerage</div>
+<p><b className="pc">${inr(l.rent)}/month</b>${l.deposit!=null?' · Deposit '+inr(l.deposit):''}</p><div className="mu">${KINDS.find(k=>k[0]==l.kind)[1]} · ${l.furnishing||'—'} · Available ${l.available_from||'now'} · For ${l.looking_for}</div>
+${l.amenities?.length>0&&h`<div className="mu">Amenities: ${l.amenities.join(', ')}</div>`}${l.description&&h`<p>${l.description}</p>`}</div>
+<div className="card"><b>Exact address</b><p className="mu">${ad||'Shared after the owner accepts your inquiry.'}</p>
+${mine?h`<p className="mu">Inquiries appear in your Inbox.</p><button className="g" onClick=${async()=>{await sb.from('listings').update({status:'closed'}).eq('id',id);back()}}>Close this listing</button>`
+:!iq?h`<button onClick=${async()=>{if(!need('The owner will see your profile before replying, so please create it first.'))return;if(await run(sb.rpc('inquire_listing',{lid:id}),'Inquiry sent'))load()}}>Ask about this flat</button>`
+:iq=='requested'?h`<p className="mu">Inquiry sent. The owner is reviewing your profile.</p>`:iq=='declined'?h`<p className="mu">The owner is not taking this forward.</p>`
+:cid&&h`<button onClick=${()=>setView({t:'chat',id:cid,name:'Owner'})}>Chat with owner</button>`}
+${!mine&&h`<button className="d" onClick=${async()=>{await sb.from('reports').insert({reporter:user.id,reported:l.owner_id,reason:'listing:'+id});toast('Reported. Thank you.')}}>Report this listing</button>`}
+<p className="mu">Never pay any advance, token or brokerage before visiting and meeting the owner.</p></div></main>`}
+function Post({user,need,back,setView}){const[f,setF]=useState({kind:'2bhk',furn:'Semi-furnished'}),[ph,setPh]=useState([]),[ow,setOw]=useState(false),[bz,setBz]=useState(false),s=k=>v=>setF(x=>({...x,[k]:v}));
+const pick=async e=>{const fs=[...e.target.files].filter(x=>x.type.startsWith('image/')).slice(0,4-ph.length);try{const bs=[];for(const x of fs)bs.push(await shrink(x,1000));setPh(p=>[...p,...bs])}catch(x){toast('Could not read an image')}};
+const save=async()=>{if(!need('People who ask about your flat will see your profile, so please create it first.'))return;if(!(f.title&&f.city&&f.loc&&f.addr&&+f.rent>0))return toast('Please fill title, city, area, address and rent');if(!ow)return toast('Please confirm the owner declaration');
+setBz(true);const paths=[];for(const[i,b]of ph.entries()){const p=user.id+'/'+Date.now()+'-'+i+'.jpg';if(!await run(sb.storage.from('listing-photos').upload(p,b,{contentType:'image/jpeg'}))){setBz(false);return}paths.push(p)}
+const d=await run(sb.from('listings').insert({owner_id:user.id,title:f.title,city:f.city.trim(),locality:f.loc.trim(),kind:f.kind,rent:+f.rent,deposit:f.dep?+f.dep:null,furnishing:f.furn,available_from:f.from||null,looking_for:f.for||'any',description:f.desc||null,amenities:(f.am||'').split(',').map(x=>x.trim()).filter(Boolean),photos:paths,zero_brokerage_declared:true}).select('id').single());
+if(d&&d!==true&&await run(sb.from('listing_private').insert({listing_id:d.id,address:f.addr})))setView({t:'lst',id:d.id});setBz(false)};
+return h`<main><${Back} f=${back}/><h2>Post your flat</h2><div className="card"><label className="btn g" style=${{margin:0}}>Add photos (${ph.length}/4)<input type="file" accept="image/*" multiple hidden onChange=${pick}/></label>
+<div className="row">${ph.map((b,i)=>h`<img key=${i} className="th" src=${URL.createObjectURL(b)} alt="" onClick=${()=>setPh(p=>p.filter((_,j)=>j!=i))}/>`)}</div>${ph.length>0&&h`<p className="mu">Tap a photo to remove it.</p>`}
+<${Inp} l="Title" v=${f.title} set=${s('title')} ph="2 BHK near Clock Tower"/><${Inp} l="City" v=${f.city} set=${s('city')}/><${Inp} l="Area or locality" v=${f.loc} set=${s('loc')}/><${Inp} l="Exact address (shown only to people you accept)" v=${f.addr} set=${s('addr')}/>
+<${Ch} l="Type" v=${f.kind} set=${s('kind')} o=${KINDS}/><${Inp} l="Rent (₹/month)" v=${f.rent} set=${s('rent')} t="number"/><${Inp} l="Security deposit (₹)" v=${f.dep} set=${s('dep')} t="number"/>
+<${Ch} l="Furnishing" v=${f.furn} set=${s('furn')} o=${['Unfurnished','Semi-furnished','Furnished'].map(x=>[x,x])}/><${Inp} l="Available from" v=${f.from} set=${s('from')} t="date"/>
+<${Ch} l="Looking for" v=${f.for||'any'} set=${s('for')} o=${[['any','Anyone'],['women','Women'],['men','Men']]}/><${Inp} l="Amenities (comma separated)" v=${f.am} set=${s('am')} ph="WiFi, parking, geyser"/><${Inp} l="Description" v=${f.desc} set=${s('desc')}/></div>
+<div className="card"><label className="cb"><input type="checkbox" checked=${ow} onChange=${e=>setOw(e.target.checked)}/> I am the owner or authorised to rent this out. I will not charge any brokerage or commission, and all details are true.</label><button disabled=${bz} onClick=${save}>${bz?'Posting…':'Post listing'}</button></div></main>`}
+
+/* ---------- Split (works on its own) ---------- */
+function Split({user,me}){const[gs,setGs]=useState([]),[g,setG]=useState(null),[nm,setNm]=useState(''),[my,setMy]=useState(fst(me?.name));
+const load=useCallback(async()=>{const{data}=await sb.from('split_groups').select('id,name,split_members(id)').order('created_at',{ascending:false});setGs(data||[])},[]);useEffect(()=>{load()},[load]);
+if(g)return h`<${Group} gid=${g} user=${user} back=${()=>{setG(null);load()}}/>`;
+return h`<main><h2>Split expenses</h2><p className="mu">Track shared costs with flatmates, friends or a trip group. No money moves through the app. It only keeps the ledger.</p>
+<div className="card"><b>New group</b><${Inp} l="Group name" v=${nm} set=${setNm} ph="Home Rent, Goa Trip, Flat 402…"/><${Inp} l="Your name in this group" v=${my} set=${setMy}/>
+<button onClick=${async()=>{if(!nm.trim()||!my.trim())return toast('Enter a group name and your name');const d=await run(sb.rpc('create_split_group',{p_name:nm.trim(),p_my_name:my.trim()}));if(d&&d!==true){setNm('');setG(d)}}}>Create group</button></div>
+<h2>Your groups</h2>${!gs.length&&h`<p className="mu">No groups yet. Create one above.</p>`}${gs.map(x=>h`<div className="card" key=${x.id} style=${{cursor:'pointer'}} onClick=${()=>setG(x.id)}><b>${x.name}</b><div className="mu">${x.split_members.length} people · tap to open</div></div>`)}</main>`}
+function Group({gid,user,back}){const[g,setGr]=useState(null),[ms,setMs]=useState([]),[ex,setEx]=useState([]),[cts,setCts]=useState([]),[mn,setMn]=useState(''),[mc,setMc]=useState(''),
+[ti,setTi]=useState(''),[ca,setCa]=useState('other'),[am,setAm]=useState(''),[pb,setPb]=useState(''),[mode,setMode]=useState('equal'),[xc,setXc]=useState([]),[cu,setCu]=useState({});
+const load=useCallback(async()=>{const[a,b,c,d]=await Promise.all([sb.from('split_groups').select('name,created_by').eq('id',gid).single(),sb.from('split_members').select('*').eq('group_id',gid).order('created_at'),
+sb.from('split_expenses').select('*, split_shares(member_id, amount)').eq('group_id',gid).order('created_at',{ascending:false}),sb.from('connections').select('from_id,to_id').eq('status','accepted')]);
+setGr(a.data);setMs(b.data||[]);setEx(c.data||[]);const ids=(d.data||[]).map(x=>x.from_id==user.id?x.to_id:x.from_id);
+if(ids.length){const{data}=await sb.from('profiles').select('id,name').in('id',ids);setCts((data||[]).map(p=>({id:p.id,name:fst(p.name)})))}},[gid,user.id]);
+useEffect(()=>{load()},[load]);useEffect(()=>{if(!pb&&ms.length)setPb((ms.find(x=>x.user_id==user.id)||ms[0]).id)},[ms,pb,user.id]);
+const nmOf=id=>ms.find(x=>x.id==id)?.display_name||'Former member',amt=+am||0,csum=r2(ms.reduce((a,x)=>a+(+cu[x.id]||0),0));
+const bal={};ms.forEach(x=>bal[x.id]=0);ex.forEach(e=>{bal[e.paid_by]=(bal[e.paid_by]||0)+ +e.amount;if(e.kind=='settlement'){if(e.settle_to)bal[e.settle_to]=(bal[e.settle_to]||0)-e.amount}else e.split_shares.forEach(s=>bal[s.member_id]=(bal[s.member_id]||0)-s.amount)});
+const D=Object.entries(bal).filter(([,v])=>v<-.005).map(([k,v])=>[k,-v]),C=Object.entries(bal).filter(([,v])=>v>.005).map(([k,v])=>[k,v]),plan=[];
+for(let i=0,j=0;i<D.length&&j<C.length;){const a=r2(Math.min(D[i][1],C[j][1]));plan.push([D[i][0],C[j][0],a]);D[i][1]=r2(D[i][1]-a);C[j][1]=r2(C[j][1]-a);if(D[i][1]<.01)i++;if(C[j][1]<.01)j++}
+const addEx=async()=>{if(!ti.trim())return toast('What was it for?');if(!(amt>0))return toast('Enter the amount');let sh;
+if(mode=='equal'){const ids=ms.filter(x=>!xc.includes(x.id)).map(x=>x.id);if(!ids.length)return toast('Choose who shares this');const c=Math.round(amt*100),b=Math.floor(c/ids.length);let rest=c-b*ids.length;sh=ids.map(id=>({member_id:id,amount:(b+(rest-->0?1:0))/100}))}
+else{sh=ms.map(x=>({member_id:x.id,amount:r2(+cu[x.id]||0)})).filter(x=>x.amount>0);if(Math.abs(csum-amt)>.01)return toast('Custom amounts total '+inr(csum)+' but the expense is '+inr(amt))}
+if(await run(sb.rpc('add_expense',{p_group:gid,p_title:ti.trim(),p_category:ca,p_amount:amt,p_paid_by:pb,p_shares:sh}))){setTi('');setAm('');setCu({});setXc([]);load()}};
+const addM=async(p)=>{if(await run(sb.rpc('add_split_member',p))){setMn('');setMc('');load()}};
+return h`<main><${Back} f=${back}/><h2>${g?.name}</h2>
+<div className="card"><b>Who owes whom</b>${ms.map(x=>h`<div className="top" key=${x.id}><span>${x.display_name}</span><b style=${{color:bal[x.id]>=0?'var(--ac)':'var(--bad)'}}>${Math.abs(bal[x.id])<.005?'settled':(bal[x.id]>0?'gets back ':'owes ')+inr(Math.abs(bal[x.id]))}</b></div>`)}
+${plan.length>0&&h`<p className="mu">Simplest way to settle:</p>`}${plan.map(([f,t,a],i)=>h`<div key=${i}>${nmOf(f)} pays ${nmOf(t)} ${inr(a)}<button className="g" onClick=${async()=>{if(await run(sb.rpc('add_settlement',{p_group:gid,p_from:f,p_to:t,p_amount:a})))load()}}>Mark as settled</button></div>`)}${!plan.length&&ex.length>0&&h`<p className="mu">Everyone is settled up 🎉</p>`}</div>
+<div className="card"><b>Add expense</b>${ms.length<2&&h`<p className="mu">Add at least one more person below to split with.</p>`}<${Ch} l="Category" v=${ca} set=${v=>{setCa(v);if(!ti.trim())setTi(CATS.find(c=>c[0]==v)[1])}} o=${CATS}/><${Inp} l="What was it for?" v=${ti} set=${setTi} ph="Rent for November"/><${Inp} l="Total amount (₹)" v=${am} set=${setAm} t="number"/>
+<${Ch} l="Paid by" v=${pb} set=${setPb} o=${ms.map(x=>[x.id,x.display_name])}/><${Ch} l="Split" v=${mode} set=${setMode} o=${[['equal','Equally'],['custom','Custom amounts']]}/>
+${mode=='equal'?h`<label>Shared by (tap to include or exclude)</label><div className="row">${ms.map(x=>h`<span key=${x.id} className=${'chip'+(xc.includes(x.id)?'':' on')} onClick=${()=>setXc(c=>c.includes(x.id)?c.filter(y=>y!=x.id):[...c,x.id])}>${x.display_name}</span>`)}</div>`
+:h`<div>${ms.map(x=>h`<${Inp} key=${x.id} l=${x.display_name+'’s share (₹)'} v=${cu[x.id]} set=${v=>setCu(c=>({...c,[x.id]:v}))} t="number"/>`)}<p className="mu">${amt>0?(Math.abs(csum-amt)<=.01?'Amounts add up ✓':inr(amt-csum)+(amt>csum?' still to assign':' too much')):'Enter the total first.'}</p></div>`}
+<button onClick=${addEx}>Add expense</button></div>
+<div className="card"><b>People in this group</b>${ms.map(x=>h`<div className="top" key=${x.id}><span>${x.display_name}${x.user_id==user.id?' (you)':x.user_id?'':' · no app'}${x.contact?' · '+x.contact:''}</span>${x.user_id!=user.id&&h`<span className="mu" style=${{cursor:'pointer'}} onClick=${async()=>{const{error}=await sb.from('split_members').delete().eq('id',x.id);if(error)toast(x.display_name+' is part of existing expenses. Settle up instead.');else load()}}>Remove</span>`}</div>`)}
+<${Inp} l="Add someone by name" v=${mn} set=${setMn} ph="Riya"/><${Inp} l="Phone or email (optional, visible to the group)" v=${mc} set=${setMc}/><button className="g" onClick=${()=>mn.trim()?addM({p_group:gid,p_name:mn.trim(),p_contact:mc.trim()||null,p_user:null}):toast('Enter a name')}>Add person</button>
+${cts.filter(c=>!ms.some(x=>x.user_id==c.id)).length>0&&h`<label>Or pick from your FlatMatch contacts</label><div className="row">${cts.filter(c=>!ms.some(x=>x.user_id==c.id)).map(c=>h`<span key=${c.id} className="chip" onClick=${()=>addM({p_group:gid,p_name:c.name,p_contact:null,p_user:c.id})}>+ ${c.name}</span>`)}</div><p className="mu">People added from contacts can also see this group.</p>`}</div>
+<div className="card"><b>History</b>${!ex.length&&h`<p className="mu">No expenses yet.</p>`}${ex.map(e=>h`<div key=${e.id} style=${{marginTop:8}}><div className="top"><b>${e.kind=='settlement'?nmOf(e.paid_by)+' paid '+nmOf(e.settle_to):e.title}</b><b>${inr(e.amount)}</b></div><div className="mu">${e.kind=='expense'?(CATS.find(c=>c[0]==e.category)?.[1]||'Other')+' · '+nmOf(e.paid_by)+' paid · ':'Settlement · '}${new Date(e.created_at).toLocaleDateString()}</div>
+${e.created_by==user.id&&h`<span className="mu" style=${{cursor:'pointer'}} onClick=${async()=>{const{data}=await sb.from('split_expenses').delete().eq('id',e.id).select('id');if(!data?.length)toast('Only the person who added this entry can delete it.');load()}}>Delete entry</span>`}</div>`)}</div>
+${g?.created_by==user.id&&h`<button className="d" onClick=${async()=>{if(!confirm('Delete this group and all its expenses for everyone?'))return;const{data}=await sb.from('split_groups').delete().eq('id',gid).select('id');if(data?.length)back();else toast('Only the creator can delete the group.')}}>Delete this group</button>`}</main>`}
+
+/* ---------- Safety / account ---------- */
+function More({user,setView}){return h`<main><h2>Safety and account</h2><div className="card"><b>First-meeting safety</b><ul className="mu"><li>Meet in a public place, in daytime.</li><li>Tell a friend where you are going.</li><li>See the flat and read the agreement before paying.</li><li>Never send advance money to someone you haven’t met.</li><li>Check the landlord allows sharing; follow local police verification rules.</li></ul><p className="mu">Emergency: Police 112 · Women helpline 181</p></div>
+<div className="card"><b>Grievance Officer</b><p className="mu">[Name], [email], [phone]. Fill in before launch.</p></div>
+<button onClick=${()=>setView({t:'edit'})}>Edit my profile</button><button className="g" onClick=${()=>sb.auth.signOut()}>Sign out</button>
+<button className="d" onClick=${async()=>{if(!confirm('Delete all your data, photos and profile? This cannot be undone.'))return;for(const b of['profile-photos','listing-photos']){const{data}=await sb.storage.from(b).list(user.id);if(data?.length)await sb.storage.from(b).remove(data.map(f=>user.id+'/'+f.name))}await sb.rpc('delete_my_data');await sb.auth.signOut()}}>Delete all my data</button></main>`}
+
+/* ---------- app shell ---------- */
+function Main({user}){const[me,setMe]=useState(undefined),[tab,setTab]=useState('ppl'),[view,setView]=useState(null),[open,setOpen]=useState(false);
+const loadMe=useCallback(async()=>{const{data}=await sb.from('profiles').select('*').eq('id',user.id).maybeSingle();setMe(data?.accepted_terms_at?data:null)},[user.id]);useEffect(()=>{loadMe()},[loadMe]);
+/* every hook must run before any early return */
+useEffect(()=>{const k=e=>e.key=='Escape'&&setOpen(false);window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k)},[]);
+if(me===undefined)return h`<main>Loading…</main>`;
+const need=why=>{if(me)return true;toast(why);setView({t:'edit'});return false},back=()=>setView(null);
+let body;if(view?.t=='edit')body=h`<${Form} me=${me} user=${user} done=${()=>{loadMe();setView(null)}} cancel=${me?back:null}/>`;
+else if(view?.t=='chat')body=h`<${Chat} v=${view} user=${user} back=${back}/>`;else if(view?.t=='lst')body=h`<${Listing} id=${view.id} user=${user} need=${need} back=${back} setView=${setView}/>`;else if(view?.t=='post')body=h`<${Post} user=${user} need=${need} back=${back} setView=${setView}/>`;
+else body={ppl:h`<${People} me=${me} user=${user} setView=${setView}/>`,inb:h`<${Inbox} me=${me} user=${user} setView=${setView}/>`,flt:h`<${Flats} setView=${setView}/>`,spl:h`<${Split} user=${user} me=${me}/>`,more:h`<${More} user=${user} setView=${setView}/>`}[tab];
+const items=[['ppl','👥','People'],['inb','💬','Inbox'],['flt','🏠','Flats'],['spl','🧾','Split expenses'],['more','🛡️','Safety & account']];
+const go=(k,v)=>{setTab(k);setView(v||null);setOpen(false);window.scrollTo(0,0)};
+const title=view?.t=='edit'?'Edit profile':view?.t=='chat'?'Chat':view?.t=='lst'?'Flat details':view?.t=='post'?'Post your flat':items.find(i=>i[0]==tab)[2];
+return h`<div><header className="bar"><button aria-label="Open menu" aria-expanded=${open} onClick=${()=>setOpen(true)}>☰</button><b>${title}</b></header>
+${open&&h`<div className="ov" onClick=${()=>setOpen(false)}></div>`}
+<aside className=${'dr'+(open?' on':'')} aria-hidden=${!open}><h3>🏠 FlatMatch</h3>
+${items.map(([k,ic,t])=>h`<div key=${k} className=${'mi'+(tab==k&&!view?' on':'')} onClick=${()=>go(k)}><span>${ic}</span>${t}</div>`)}<hr/>
+<div className="mi" onClick=${()=>go(tab,{t:'post'})}><span>➕</span>Post your flat</div><div className="mi" onClick=${()=>go(tab,{t:'edit'})}><span>👤</span>Edit my profile</div><div className="mi" onClick=${()=>sb.auth.signOut()}><span>🚪</span>Sign out</div></aside>
+${body}</div>`}
+function App(){const[s,setS]=useState(undefined);useEffect(()=>{sb.auth.getSession().then(({data})=>setS(data.session));const{data}=sb.auth.onAuthStateChange((_e,x)=>setS(x));return()=>data.subscription.unsubscribe()},[]);
+if(CFG.url.includes('YOUR-PROJECT'))return h`<main><h2>Almost there</h2><p>Open <b>index.html</b> in a text editor and paste your Supabase project URL and anon key into the <b>CFG</b> line near the top of the script.</p></main>`;
+if(s===undefined)return h`<main>Loading…</main>`;return s?h`<${Main} user=${s.user} key=${s.user.id}/>`:h`<${Auth}/>`}
+class Boundary extends React.Component{constructor(p){super(p);this.state={e:null}}static getDerivedStateFromError(e){return{e}}
+render(){return this.state.e?h`<main><h2>Something went wrong</h2><p className="mu">${String(this.state.e&&this.state.e.message||this.state.e)}</p><button onClick=${()=>location.reload()}>Reload</button></main>`:this.props.children}}
+window.addEventListener('error',e=>{const r=document.getElementById('root');if(r&&!r.firstChild)fatal(e.message)});
+ReactDOM.createRoot(document.getElementById('root')).render(h`<${Boundary}><${App}/><//>`);
+</script></body></html>
